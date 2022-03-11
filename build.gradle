@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+group 'at.fhv.ss22.ea.f'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation "org.mockito:mockito-core:3.+"
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('jacocoReport')
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}

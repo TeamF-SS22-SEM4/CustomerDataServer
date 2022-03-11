@@ -1,0 +1,5 @@
+#Fri Mar 11 18:29:22 CET 2022
+mongodb.database=customerDb
+mongodb.generateUUID=false
+mongodb.collection=customers
+mongodb.address=10.0.40.171
