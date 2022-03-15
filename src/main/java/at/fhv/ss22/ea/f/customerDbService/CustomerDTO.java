@@ -1,5 +1,6 @@
 package at.fhv.ss22.ea.f.customerDbService;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class CustomerDTO {
@@ -19,22 +20,85 @@ public class CustomerDTO {
     private String creditCardNumber;
     private String creditCardValidationCode;
 
-    public CustomerDTO(UUID id, String givenName, String familyName, String birthDate, String street, String houseNumber, String postalCode, String city, String country, String email, String phoneNumber, String mobileNumber, String iban, String creditCardNumber, String creditCardValidationCode) {
-        this.id = id;
-        this.givenName = givenName;
-        this.familyName = familyName;
-        this.birthDate = birthDate;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.country = country;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.mobileNumber = mobileNumber;
-        this.iban = iban;
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardValidationCode = creditCardValidationCode;
+    private CustomerDTO() {}
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private CustomerDTO customer;
+        Builder() {
+            this.customer = new CustomerDTO();
+        }
+
+        public CustomerDTO build() {
+            Objects.requireNonNull(this.customer.id, "CustomerDTO requires an ID");
+            return this.customer;
+        }
+
+        public Builder id(UUID id) {
+            this.customer.id = id;
+            return this;
+        }
+
+        public Builder givenName(String name) {
+            this.customer.givenName = name;
+            return this;
+        }
+        public Builder familyName(String name) {
+            this.customer.familyName = name;
+            return this;
+        }
+        public Builder birthDate(String birthDate) {
+            this.customer.birthDate = birthDate;
+            return this;
+        }
+        public Builder street(String street) {
+            this.customer.street = street;
+            return this;
+        }
+        public Builder houseNumber(String houseNumber) {
+            this.customer.houseNumber = houseNumber;
+            return this;
+        }
+        public Builder postalCode(String postalCode) {
+            this.customer.postalCode = postalCode;
+            return this;
+        }
+        public Builder city(String city) {
+            this.customer.city = city;
+            return this;
+        }
+        public Builder country(String country) {
+            this.customer.country = country;
+            return this;
+        }
+        public Builder email(String email) {
+            this.customer.email = email;
+            return this;
+        }
+        public Builder phoneNumber(String phoneNumber) {
+            this.customer.phoneNumber = phoneNumber;
+            return this;
+        }
+        public Builder mobileNumber(String mobileNumber) {
+            this.customer.mobileNumber = mobileNumber;
+            return this;
+        }
+        public Builder iban(String iban) {
+            this.customer.iban = iban;
+            return this;
+        }
+        public Builder creditCardNumber(String creditCardNumber) {
+            this.customer.creditCardNumber = creditCardNumber;
+            return this;
+        }
+        public Builder creditCardValidationCode(String creditCardValidationCode) {
+            this.customer.creditCardValidationCode = creditCardValidationCode;
+            return this;
+        }
+
     }
 
     public UUID getId() {
@@ -96,4 +160,5 @@ public class CustomerDTO {
     public String getCreditCardValidationCode() {
         return creditCardValidationCode;
     }
+
 }

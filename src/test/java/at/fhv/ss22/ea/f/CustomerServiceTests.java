@@ -1,8 +1,8 @@
 package at.fhv.ss22.ea.f;
 
 import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
-import at.fhv.ss22.ea.f.customerDbService.CustomerRepository;
-import at.fhv.ss22.ea.f.customerDbService.CustomerService;
+import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
+import at.fhv.ss22.ea.f.customerDbService.application.CustomerService;
 import at.fhv.ss22.ea.f.customerDbService.application.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class CustomerServiceTests {
     }
 
     private CustomerDTO newTestCustomer() {
-        return new CustomerDTO(UUID.randomUUID(), "max", "mustermann", "", "" , "", "", "", "", "", "", "", "", "", "");
+        return CustomerDTO.builder().id(UUID.randomUUID()).givenName("max").familyName("mustermann").build();
     }
 
     @Test

@@ -1,69 +1,59 @@
 package at.fhv.ss22.ea.f.customerDbService.infrastructure;
 
 import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
-import at.fhv.ss22.ea.f.customerDbService.CustomerRepository;
+import at.fhv.ss22.ea.f.customerDbService.util.Config;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.*;
 
 public class CustomerRepositoryMongoDb implements CustomerRepository {
+
+    private static final String DATABASE_IP_ADDRESS = Config.getProperty("mongodb.address");
+    private static final String DATABASE_PORT = Config.getProperty("mongodb.port");
+    private static final String MONGODB_DATABASE = Config.getProperty("mongodb.database");
+    private static final String MONGODB_COLLECTION = Config.getProperty("mongodb.customerCollection");
+
     private MongoCollection<Document> customerCollection;
 
     public CustomerRepositoryMongoDb() {
-        Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("config")) {
-            props.load(fis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // TODO set localhost in config
-        MongoClient mongoClient = MongoClients.create("mongodb://" + props.getProperty("mongodb.address"));
-        MongoDatabase db = mongoClient.getDatabase(props.getProperty("mongodb.database"));
-        this.customerCollection = db.getCollection(props.getProperty("mongodb.collection"));
-
-        if (Boolean.parseBoolean(props.getProperty("mongodb.generateUUID"))) {
-            generateDomainIdForAllRecords();
-            props.setProperty("mongodb.generateUUID", "false");
-            try (FileOutputStream out = new FileOutputStream("database.config")) {
-                props.store(out, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        MongoClient mongoClient = MongoClients.create("mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT);
+        MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
+        this.customerCollection = db.getCollection(MONGODB_COLLECTION);
     }
 
     @Override
     public Optional<CustomerDTO> customerById(UUID uuid) {
-        //TODO implement
-        return Optional.empty();
+        BasicDBObject query = new BasicDBObject();
+        query.put("customerId", uuid.toString());
+        return customerDTOFromDocument(this.customerCollection.find(query).first());
     }
 
-    /**Utility function to create uuid's for existing customer data
-     * Warning running this takes a long as time >30min
-     */
-    private void generateDomainIdForAllRecords() {
-        List<ObjectId> mongoIdList = new LinkedList<>();
-        int j = 0;
-        this.customerCollection.find(new BasicDBObject()).forEach(document -> mongoIdList.add(document.getObjectId("_id")));
+    private Optional<CustomerDTO> customerDTOFromDocument(Document doc) {
+        if (doc==null) { return Optional.empty(); }
 
-        // setting ID for each separate document, because else each record has the same UUID
-        for (ObjectId id : mongoIdList) {
-            BasicDBObject idQuery = new BasicDBObject();
-            idQuery.put("_id", id);
+        Document address = doc.get("address", Document.class);
+        Document bankAccount = doc.get("bankAccount", Document.class);
+        Document creditCard = doc.get("creditCard", Document.class);
 
-            BasicDBObject idField = new BasicDBObject();
-            idField.put("domain_id", UUID.randomUUID().toString());
-
-            BasicDBObject updateObject = new BasicDBObject();
-            updateObject.put("$set", idField);
-
-            this.customerCollection.updateOne(idQuery, updateObject);
-        }
+        return Optional.of(CustomerDTO.builder()
+                .id(UUID.fromString(doc.get("customerId").toString()))
+                .givenName(doc.getString("givenName"))
+                .familyName(doc.getString("familyName"))
+                .birthDate(doc.getString("birthDate"))
+                .email(doc.getString("email"))
+                .street(address.getString("streetAddress"))
+                .houseNumber(address.getString("houseNumber"))
+                .city(address.getString("addressLocality"))
+                .postalCode(address.getString("postalCode"))
+                .country(address.getString("addressCountry"))
+                .phoneNumber(doc.getString("phoneNo"))
+                .mobileNumber(doc.getString("mobileNo"))
+                .iban(bankAccount.getString("iban"))
+                .creditCardNumber(creditCard.getString("number"))
+                .creditCardValidationCode(creditCard.getString("cvc"))
+                .build());
     }
 }

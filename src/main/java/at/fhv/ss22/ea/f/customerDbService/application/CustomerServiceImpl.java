@@ -1,14 +1,13 @@
 package at.fhv.ss22.ea.f.customerDbService.application;
 
 import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
-import at.fhv.ss22.ea.f.customerDbService.CustomerRepository;
-import at.fhv.ss22.ea.f.customerDbService.CustomerService;
+import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepositoryMongoDb;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CustomerServiceImpl implements CustomerService {
 
@@ -31,11 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> customerListByIds(List<UUID> uuidList) {
-        List<CustomerDTO> customers = new LinkedList<>();
-        for (UUID id : uuidList) {
-            Optional<CustomerDTO> customerOpt = customerRepository.customerById(id);
-            customerOpt.ifPresent(customers::add);
-        }
-        return customers;
+        return uuidList.stream().map(id -> customerRepository.customerById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 }

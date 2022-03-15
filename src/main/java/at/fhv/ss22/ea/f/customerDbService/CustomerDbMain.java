@@ -1,15 +1,14 @@
 package at.fhv.ss22.ea.f.customerDbService;
 
-import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepositoryMongoDb;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import at.fhv.ss22.ea.f.customerDbService.application.CustomerService;
+import at.fhv.ss22.ea.f.customerDbService.application.CustomerServiceImpl;
 
 public class CustomerDbMain {
 
     public static void main(String[] args) {
-        // TODO stuff
+        CustomerService customerService = new CustomerServiceImpl();
+
+        // TODO stuff related to rmi
     }
 
 }
