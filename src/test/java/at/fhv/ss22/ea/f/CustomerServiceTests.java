@@ -18,14 +18,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CustomerServiceTests {
+class CustomerServiceTests {
 
     private CustomerService customerService;
 
     private CustomerRepository customerRepository;
 
     @BeforeAll
-    public void setup() {
+    void setup() {
         this.customerRepository = mock(CustomerRepository.class);
         this.customerService = CustomerServiceImpl.newTestInstance(this.customerRepository);
     }
@@ -35,22 +35,22 @@ public class CustomerServiceTests {
     }
 
     @Test
-    public void given_valid_id_get_by_id() {
+    void given_valid_id_get_by_id() {
         //given
         CustomerDTO customer = newTestCustomer();
-        when(customerRepository.customerById(customer.getId())).thenReturn(java.util.Optional.of(customer));
+        when(customerRepository.customerById(customer.getCustomerId())).thenReturn(java.util.Optional.of(customer));
 
         //when
-        CustomerDTO customerActual = customerService.customerById(customer.getId()).orElseThrow();
+        CustomerDTO customerActual = customerService.customerById(customer.getCustomerId()).orElseThrow();
 
         //then
-        assertEquals(customerActual.getId(), customer.getId());
+        assertEquals(customerActual.getCustomerId(), customer.getCustomerId());
         assertEquals(customerActual.getGivenName(), customer.getGivenName());
         assertEquals(customerActual.getFamilyName(), customer.getFamilyName());
     }
 
     @Test
-    public void given_invalid_id_then_empty() {
+    void given_invalid_id_then_empty() {
         //given
         when(customerRepository.customerById(any())).thenReturn(Optional.empty());
 
@@ -62,19 +62,19 @@ public class CustomerServiceTests {
     }
 
     @Test
-    public void given_list_of_mixed_ids_then_only_valid_customers_in_result() {
+    void given_list_of_mixed_ids_then_only_valid_customers_in_result() {
         //given
         CustomerDTO customer1 = newTestCustomer();
         CustomerDTO customer2 = newTestCustomer();
         CustomerDTO customer3 = newTestCustomer();
         CustomerDTO invalidCustomer = newTestCustomer();
-        when(customerRepository.customerById(customer1.getId())).thenReturn(Optional.of(customer1));
-        when(customerRepository.customerById(customer2.getId())).thenReturn(Optional.of(customer2));
-        when(customerRepository.customerById(customer3.getId())).thenReturn(Optional.of(customer3));
-        when(customerRepository.customerById(invalidCustomer.getId())).thenReturn(Optional.empty());
+        when(customerRepository.customerById(customer1.getCustomerId())).thenReturn(Optional.of(customer1));
+        when(customerRepository.customerById(customer2.getCustomerId())).thenReturn(Optional.of(customer2));
+        when(customerRepository.customerById(customer3.getCustomerId())).thenReturn(Optional.of(customer3));
+        when(customerRepository.customerById(invalidCustomer.getCustomerId())).thenReturn(Optional.empty());
 
         //when
-        List<CustomerDTO> listActual = customerService.customerListByIds(List.of(customer1.getId(), customer2.getId(), customer3.getId(), invalidCustomer.getId()));
+        List<CustomerDTO> listActual = customerService.customerListByIds(List.of(customer1.getCustomerId(), customer2.getCustomerId(), customer3.getCustomerId(), invalidCustomer.getCustomerId()));
 
         //then
         assertTrue(listActual.contains(customer1));

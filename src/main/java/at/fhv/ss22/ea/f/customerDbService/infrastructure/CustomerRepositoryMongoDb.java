@@ -35,14 +35,11 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
         if (doc==null) { return Optional.empty(); }
 
         Document address = doc.get("address", Document.class);
-        Document bankAccount = doc.get("bankAccount", Document.class);
-        Document creditCard = doc.get("creditCard", Document.class);
 
         return Optional.of(CustomerDTO.builder()
                 .id(UUID.fromString(doc.get("customerId").toString()))
                 .givenName(doc.getString("givenName"))
                 .familyName(doc.getString("familyName"))
-                .birthDate(doc.getString("birthDate"))
                 .email(doc.getString("email"))
                 .street(address.getString("streetAddress"))
                 .houseNumber(address.getString("houseNumber"))
@@ -51,9 +48,6 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
                 .country(address.getString("addressCountry"))
                 .phoneNumber(doc.getString("phoneNo"))
                 .mobileNumber(doc.getString("mobileNo"))
-                .iban(bankAccount.getString("iban"))
-                .creditCardNumber(creditCard.getString("number"))
-                .creditCardValidationCode(creditCard.getString("cvc"))
                 .build());
     }
 }

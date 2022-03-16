@@ -4,10 +4,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class CustomerDTO {
-    private UUID id;
+    private UUID customerId;
     private String givenName;
     private String familyName;
-    private String birthDate;
     private String street;
     private String houseNumber;
     private String postalCode;
@@ -16,9 +15,6 @@ public class CustomerDTO {
     private String email;
     private String phoneNumber;
     private String mobileNumber;
-    private String iban;
-    private String creditCardNumber;
-    private String creditCardValidationCode;
 
     private CustomerDTO() {}
 
@@ -33,12 +29,12 @@ public class CustomerDTO {
         }
 
         public CustomerDTO build() {
-            Objects.requireNonNull(this.customer.id, "CustomerDTO requires an ID");
+            Objects.requireNonNull(this.customer.customerId, "CustomerDTO requires an ID");
             return this.customer;
         }
 
         public Builder id(UUID id) {
-            this.customer.id = id;
+            this.customer.customerId = id;
             return this;
         }
 
@@ -48,10 +44,6 @@ public class CustomerDTO {
         }
         public Builder familyName(String name) {
             this.customer.familyName = name;
-            return this;
-        }
-        public Builder birthDate(String birthDate) {
-            this.customer.birthDate = birthDate;
             return this;
         }
         public Builder street(String street) {
@@ -86,23 +78,10 @@ public class CustomerDTO {
             this.customer.mobileNumber = mobileNumber;
             return this;
         }
-        public Builder iban(String iban) {
-            this.customer.iban = iban;
-            return this;
-        }
-        public Builder creditCardNumber(String creditCardNumber) {
-            this.customer.creditCardNumber = creditCardNumber;
-            return this;
-        }
-        public Builder creditCardValidationCode(String creditCardValidationCode) {
-            this.customer.creditCardValidationCode = creditCardValidationCode;
-            return this;
-        }
-
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public String getGivenName() {
@@ -111,10 +90,6 @@ public class CustomerDTO {
 
     public String getFamilyName() {
         return familyName;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
     }
 
     public String getStreet() {
@@ -147,18 +122,6 @@ public class CustomerDTO {
 
     public String getMobileNumber() {
         return mobileNumber;
-    }
-
-    public String getIban() {
-        return iban;
-    }
-
-    public String getCreditCardNumber() {
-        return creditCardNumber;
-    }
-
-    public String getCreditCardValidationCode() {
-        return creditCardValidationCode;
     }
 
 }

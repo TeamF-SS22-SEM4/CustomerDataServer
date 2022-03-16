@@ -14,17 +14,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MongoDbCustomerRepoTests {
+class MongoDbCustomerRepoTests {
 
     CustomerRepository customerRepository;
 
     @BeforeAll
-    public void setup() {
+    void setup() {
         this.customerRepository = new CustomerRepositoryMongoDb();
     }
 
     @Test
-    public void get_customer_with_valid_id() {
+    void get_customer_with_valid_id() {
         // copied valid id directly from mongoDb, not inserting tests records because this application doesn't have
         // to support updates, thus no easy methods for inserting records has been implemented yet
         UUID id = UUID.fromString("3def4360-82e6-4b4b-948f-4d3b88bdc039");
@@ -37,7 +37,7 @@ public class MongoDbCustomerRepoTests {
     }
 
     @Test
-    public void get_customer_with_invalid_id() {
+    void get_customer_with_invalid_id() {
         UUID id = UUID.randomUUID();
         assertTrue(customerRepository.customerById(id).isEmpty());
     }
