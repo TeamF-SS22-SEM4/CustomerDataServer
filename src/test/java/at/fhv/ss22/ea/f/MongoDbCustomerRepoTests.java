@@ -18,12 +18,12 @@ class MongoDbCustomerRepoTests {
 
     CustomerRepository customerRepository;
 
-    @BeforeAll
+//    @BeforeAll
     void setup() {
         this.customerRepository = new CustomerRepositoryMongoDb();
     }
 
-    @Test
+//    @Test
     void get_customer_with_valid_id() {
         // copied valid id directly from mongoDb, not inserting tests records because this application doesn't have
         // to support updates, thus no easy methods for inserting records has been implemented yet
@@ -36,7 +36,7 @@ class MongoDbCustomerRepoTests {
         assertEquals("Ludwigsfelde", customerOpt.get().getCity());
     }
 
-    @Test
+//    @Test
     void get_customer_with_invalid_id() {
         UUID id = UUID.randomUUID();
         assertTrue(customerRepository.customerById(id).isEmpty());

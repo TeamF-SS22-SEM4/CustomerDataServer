@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group 'at.fhv.ss22.ea.f'
@@ -29,4 +30,11 @@ jacoco {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'at.fhv.ss22.ea.f.customerDbService.CustomerDbMain'
+        )
+    }
 }
