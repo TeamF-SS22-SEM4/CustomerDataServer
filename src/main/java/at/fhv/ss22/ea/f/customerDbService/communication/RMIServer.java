@@ -3,6 +3,8 @@ package at.fhv.ss22.ea.f.customerDbService.communication;
 import at.fhv.ss22.ea.f.communication.api.CustomerService;
 import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -38,6 +40,7 @@ public class RMIServer {
         CustomerService customerService = InstanceProvider.getCustomerService();
         try {
             registry.rebind("CustomerService", customerService);
+            System.out.println("CustomerService bound in registry on port " + PORT);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("Failed to bind customer service");
