@@ -3,7 +3,6 @@ package at.fhv.ss22.ea.f.customerDbService.application;
 import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,8 +23,7 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
 
     @Override
     public List<CustomerDTO> search(String query) {
-        //TODO implement
-        return new LinkedList<>();
+        return customerRepository.search(query);
     }
 
     @Override

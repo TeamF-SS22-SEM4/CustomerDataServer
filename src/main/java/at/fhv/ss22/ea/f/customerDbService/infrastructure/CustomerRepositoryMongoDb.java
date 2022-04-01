@@ -42,7 +42,24 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
 
     @Override
     public List<CustomerDTO> search(String query) {
-        return new LinkedList<>();
+        BasicDBObject textQueryObject = new BasicDBObject();
+        BasicDBObject queryHolder = new BasicDBObject();
+        BasicDBObject sortQuery = new BasicDBObject();
+        BasicDBObject subSortQuery = new BasicDBObject();
+
+        queryHolder.put("$search", query);
+        textQueryObject.put("$text", queryHolder);
+        subSortQuery.put("$meta", "textScore");
+        sortQuery.put("score", subSortQuery);
+
+        List<CustomerDTO> results = new LinkedList<>();
+        this.customerCollection.find(textQueryObject).projection(sortQuery).sort(sortQuery)
+                .forEach( doc -> {
+                            Optional<CustomerDTO> opt = customerDTOFromDocument(doc);
+                            opt.ifPresent(results::add);
+                        }
+                );
+        return results;
     }
 
     private Optional<CustomerDTO> customerDTOFromDocument(Document doc) {

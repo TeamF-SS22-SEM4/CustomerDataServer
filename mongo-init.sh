@@ -9662,5 +9662,6 @@ mongo <<EOF
 use ${MONGO_INITDB_DATABASE}
 
 db.customers.createIndex({customerId: 1});
-EOF
 
+db.customers.createIndex({ givenName: "text", familyName: "text", "address.addressCountry": "text", "address.addressLocality": "text", "address.streetAddress": "text"});
+EOF
