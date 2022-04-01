@@ -1,6 +1,6 @@
 package at.fhv.ss22.ea.f.customerDbService.infrastructure;
 
-import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
+import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -12,10 +12,10 @@ import java.util.*;
 
 public class CustomerRepositoryMongoDb implements CustomerRepository {
 
-    private static final String DATABASE_IP_ADDRESS = "mongo"; //value depends on link attribute in docker-compose.yml
+    private static final String DATABASE_IP_ADDRESS = "local_mongo";
     private static final String DATABASE_PORT = "27017";
     private static final String MONGODB_DATABASE = System.getenv("MONGO_INITDB_DATABASE");
-    private static final String MONGODB_COLLECTION = System.getenv("MONGO_CUSTOMER_COLLECTION");
+    private static final String MONGODB_COLLECTION = "customers";
 
     private MongoCollection<Document> customerCollection;
 
@@ -29,7 +29,6 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
                         .credential(credential)
                         .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
                         .build());
-//                "mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT);
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
     }
@@ -37,8 +36,13 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
     @Override
     public Optional<CustomerDTO> customerById(UUID uuid) {
         BasicDBObject query = new BasicDBObject();
-//        query.put("customerId", uuid.toString());
+        query.put("customerId", uuid.toString());
         return customerDTOFromDocument(this.customerCollection.find(query).first());
+    }
+
+    @Override
+    public List<CustomerDTO> search(String query) {
+        return new LinkedList<>();
     }
 
     private Optional<CustomerDTO> customerDTOFromDocument(Document doc) {

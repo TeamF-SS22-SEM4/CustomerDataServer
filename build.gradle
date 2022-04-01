@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group 'at.fhv.ss22.ea.f'
@@ -9,13 +8,15 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io'}
 }
 
 dependencies {
     implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    implementation 'com.github.TeamF-SS22-SEM4:RMI-Shared-Lib:v14'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation "org.mockito:mockito-core:3.+"
+    implementation "org.mockito:mockito-core:3.+"
 }
 
 jacocoTestReport {
@@ -32,9 +33,12 @@ test {
     finalizedBy jacocoTestReport
 }
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest {
-        attributes(
-                'Main-Class': 'at.fhv.ss22.ea.f.customerDbService.CustomerDbMain'
-        )
+        attributes 'Main-Class': 'at.fhv.ss22.ea.f.customerDbService.CustomerDbMain'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

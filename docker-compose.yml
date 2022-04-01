@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   mongo:
-    image: mongo:latest
     container_name: mongodb
+    image: mongo:5.0
     restart: always
     env_file:
-      - customer-db.env
+      - .env
     ports:
       - "27017:27017"
     volumes:
@@ -13,11 +13,11 @@ services:
   customer-db-service:
     container_name: customer-db-service
     build: .
-#    ports:
-#      - "1099:1099"
+    env_file:
+      - .env
+    ports:
+      - ${RMI_PORT}:${RMI_PORT}
     depends_on:
       - mongo
     links:
-      - mongo
-    env_file:
-      - customer-db.env
+      - mongo:local_mongo

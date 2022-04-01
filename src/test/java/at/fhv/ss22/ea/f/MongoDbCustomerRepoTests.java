@@ -1,6 +1,7 @@
 package at.fhv.ss22.ea.f;
 
-import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
+import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
+import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepositoryMongoDb;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,7 @@ class MongoDbCustomerRepoTests {
 
 //    @BeforeAll
     void setup() {
-        this.customerRepository = new CustomerRepositoryMongoDb();
+        this.customerRepository = InstanceProvider.getCustomerRepository();
     }
 
 //    @Test
