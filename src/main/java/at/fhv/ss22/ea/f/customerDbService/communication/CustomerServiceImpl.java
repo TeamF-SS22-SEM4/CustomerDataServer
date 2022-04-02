@@ -20,6 +20,7 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
 
     @Override
     public CustomerDTO customerById(UUID uuid) {
+        System.out.println("received call in communication");
         return customerApplicationService.customerById(uuid).orElse(null);
     }
 

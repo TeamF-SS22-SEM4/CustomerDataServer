@@ -35,6 +35,7 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
 
     @Override
     public Optional<CustomerDTO> customerById(UUID uuid) {
+        System.out.println("received call in infrastructure");
         BasicDBObject query = new BasicDBObject();
         query.put("customerId", uuid.toString());
         return customerDTOFromDocument(this.customerCollection.find(query).first());

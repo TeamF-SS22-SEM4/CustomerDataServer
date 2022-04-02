@@ -8,8 +8,8 @@ services:
       - .env
     ports:
       - "27017:27017"
-    networks:
-      - customer_backend
+#    networks:
+#      - customer_backend
     volumes:
       - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
   customer-db-service:
@@ -19,17 +19,17 @@ services:
       - .env
     ports:
       - ${RMI_PORT}:${RMI_PORT}
-    networks:
-      - customer_backend
+#    networks:
+#      - customer_backend
 #      - rmi_connection
     depends_on:
       - mongo
     links:
       - mongo:local_mongo
 
-networks:
-  customer_backend:
-    driver: bridge
+#networks:
+#  customer_backend:
+#    driver: bridge
 #  rmi_connection:
 #    name: rmi_connection
 #    driver: bridge
