@@ -12,7 +12,7 @@ import java.util.*;
 
 public class CustomerRepositoryMongoDb implements CustomerRepository {
 
-    private static final String DATABASE_IP_ADDRESS = "local_mongo";
+    private static final String DATABASE_IP_ADDRESS = "localhost";
     private static final String DATABASE_PORT = "27017";
     private static final String MONGODB_DATABASE = System.getenv("MONGO_INITDB_DATABASE");
     private static final String MONGODB_COLLECTION = "customers";
@@ -27,10 +27,11 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
         MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
                         .credential(credential)
-                        .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
+                        .applyConnectionString(new ConnectionString("mongodb://local_mongo"))// + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
                         .build());
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
+        System.out.println("Created mongoRepository");
     }
 
     @Override
@@ -67,7 +68,6 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
         if (doc==null) { return Optional.empty(); }
 
         Document address = doc.get("address", Document.class);
-
         return Optional.of(CustomerDTO.builder()
                 .id(UUID.fromString(doc.get("customerId").toString()))
                 .givenName(doc.getString("givenName"))
