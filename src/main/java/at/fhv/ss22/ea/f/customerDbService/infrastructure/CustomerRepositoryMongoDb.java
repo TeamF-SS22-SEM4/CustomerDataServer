@@ -40,7 +40,7 @@ EOF
     public CustomerRepositoryMongoDb() {
         MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
-                        .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
+                        .applyConnectionString(new ConnectionString("mongodb://local_mongo:" + DATABASE_PORT))
                         .build());
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
