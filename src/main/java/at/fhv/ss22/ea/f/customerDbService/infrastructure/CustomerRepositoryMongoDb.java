@@ -11,24 +11,6 @@ import org.bson.Document;
 import java.util.*;
 
 public class CustomerRepositoryMongoDb implements CustomerRepository {
-    /*
-    MONGO_INITDB_ROOT_USERNAME=mustermann
-    MONGO_INITDB_ROOT_PASSWORD=verySecurePwd
-
-    mongo <<EOF
-use ${MONGO_INITDB_DATABASE}
-
-db.createUser({
-  user: '${MONGO_USERNAME}',
-  pwd: '${MONGO_PASSWORD}',
-  roles: [{
-    role: 'readWrite',
-    db: '${MONGO_INITDB_DATABASE}'
-  }]
-});
-
-EOF
-     */
 
     private static final String DATABASE_IP_ADDRESS = "localhost";
     private static final String DATABASE_PORT = "27017";
@@ -38,8 +20,13 @@ EOF
     private MongoCollection<Document> customerCollection;
 
     public CustomerRepositoryMongoDb() {
+        MongoCredential credential = MongoCredential.createCredential(
+                System.getenv("MONGO_USERNAME"),
+                System.getenv("MONGO_INITDB_DATABASE"),
+                System.getenv("MONGO_PASSWORD").toCharArray());
         MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
+                        .credential(credential)
                         .applyConnectionString(new ConnectionString("mongodb://local_mongo:" + DATABASE_PORT))
                         .build());
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
