@@ -18,7 +18,6 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
 
     @Override
     public Optional<CustomerDTO> customerById(UUID uuid) {
-        System.out.println("received call in application");
         return customerRepository.customerById(uuid);
     }
 

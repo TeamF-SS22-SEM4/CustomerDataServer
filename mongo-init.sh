@@ -3,8 +3,8 @@ set -e
 
 mongo <<EOF
 use ${MONGO_INITDB_DATABASE}
-db.createCollection('customers')
 
+db.createCollection('customers')
 EOF
 
 mongo <<EOF

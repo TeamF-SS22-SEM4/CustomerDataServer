@@ -28,7 +28,6 @@ db.createUser({
 });
 
 EOF
-
      */
 
     private static final String DATABASE_IP_ADDRESS = "localhost";
@@ -41,16 +40,14 @@ EOF
     public CustomerRepositoryMongoDb() {
         MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
-                        .applyConnectionString(new ConnectionString("mongodb://local_mongo"))// + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
+                        .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_IP_ADDRESS + ":" + DATABASE_PORT))
                         .build());
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
-        System.out.println("Created mongoRepository");
     }
 
     @Override
     public Optional<CustomerDTO> customerById(UUID uuid) {
-        System.out.println("received call in infrastructure");
         BasicDBObject query = new BasicDBObject();
         query.put("customerId", uuid.toString());
         return customerDTOFromDocument(this.customerCollection.find(query).first());
