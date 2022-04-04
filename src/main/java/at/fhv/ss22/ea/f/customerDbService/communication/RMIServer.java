@@ -3,18 +3,15 @@ package at.fhv.ss22.ea.f.customerDbService.communication;
 import at.fhv.ss22.ea.f.communication.api.CustomerService;
 import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
-    private static CustomerServiceImpl registeredService;
 
     public static final int PORT = Integer.parseInt(System.getenv("RMI_PORT"));
 
-    public static void start() {
+    public void start() {
         System.out.println("Starting server on port " + PORT);
         System.setProperty("java.rmi.server.hostname", System.getenv("RMI_HOSTNAME"));
 
@@ -39,9 +36,9 @@ public class RMIServer {
             }
         }
 
-        registeredService = (CustomerServiceImpl) InstanceProvider.getCustomerService();;
+        CustomerService service = InstanceProvider.getCustomerService();;
         try {
-            registry.rebind("CustomerService", registeredService);
+            registry.rebind("CustomerService", service);
             System.out.println("CustomerService bound in registry on port " + PORT);
         } catch (RemoteException e) {
             e.printStackTrace();

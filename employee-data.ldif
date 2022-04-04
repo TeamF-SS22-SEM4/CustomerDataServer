@@ -1,0 +1,73 @@
+version: 1
+
+dn: ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalUnit
+objectClass: top
+ou: employees
+
+dn: ou=dbi6423,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Dario Birbamer
+sn: Birbamer
+ou: dbi6423
+userPassword:: cGFzc3dvcmQ=
+
+dn: ou=dku7033,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn:: RG9taW5payBLw7xobmU=
+sn:: S8O8aG5l
+ou: dku7033
+userPassword:: cGFzc3dvcmQ=
+
+dn: ou=jmo8620,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Johannes Moosbrugger
+sn: Moosbrugger
+ou: jmo8620
+userPassword:: cGFzc3dvcmQ=
+
+dn: ou=lka2222,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Lukas Kaufmann
+sn: kaufmann
+ou: lka2222
+userPassword:: e1NTSEF9bWJ0eTZhVGZMWnhuSTYySTM0WW9XU1VnMStGekh4aW03Y3RxRVE9P
+ Q==
+
+dn: ou=msp3991,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Michael Spiegel
+sn: Spiegel
+ou: msp3991
+userPassword:: e1NTSEF9d3gwT3FhcFZYb3E0SUFjMEpRY3JoUXdyOENmWERSV2lYSDd2Qmc9P
+ Q==
+
+dn: ou=sma7959,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Stefan Mayer
+sn: Mayer
+ou: sma7959
+userPassword:: e1NTSEF9RVcxOTZ4RzJ2dFZqK0dxVGYvOVlucXZEcUFaeFNVdkZleC9GL3c9P
+ Q==
+
+dn: ou=tf-test,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Thomas Feilhauer
+sn: Feilhauer
+ou: tf-test
+userPassword:: VGVzdC10Zg==
+
