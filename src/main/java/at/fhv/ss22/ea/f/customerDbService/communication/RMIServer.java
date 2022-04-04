@@ -10,6 +10,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
+    private static CustomerServiceImpl registeredService;
 
     public static final int PORT = Integer.parseInt(System.getenv("RMI_PORT"));
 
@@ -38,9 +39,9 @@ public class RMIServer {
             }
         }
 
-        CustomerService customerService = InstanceProvider.getCustomerService();;
+        registeredService = (CustomerServiceImpl) InstanceProvider.getCustomerService();;
         try {
-            registry.rebind("CustomerService", customerService);
+            registry.rebind("CustomerService", registeredService);
             System.out.println("CustomerService bound in registry on port " + PORT);
         } catch (RemoteException e) {
             e.printStackTrace();
