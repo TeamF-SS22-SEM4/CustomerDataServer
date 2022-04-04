@@ -10,11 +10,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
-    private static CustomerService everyBraincellRefusesToBelieveThisIsNecessary;
 
     public static final int PORT = Integer.parseInt(System.getenv("RMI_PORT"));
 
-    public void start() {
+    public static void start() {
         System.out.println("Starting server on port " + PORT);
         System.setProperty("java.rmi.server.hostname", System.getenv("RMI_HOSTNAME"));
 
@@ -39,8 +38,7 @@ public class RMIServer {
             }
         }
 
-        everyBraincellRefusesToBelieveThisIsNecessary = InstanceProvider.getCustomerService();
-        CustomerService customerService = everyBraincellRefusesToBelieveThisIsNecessary;
+        CustomerService customerService = InstanceProvider.getCustomerService();;
         try {
             registry.rebind("CustomerService", customerService);
             System.out.println("CustomerService bound in registry on port " + PORT);
