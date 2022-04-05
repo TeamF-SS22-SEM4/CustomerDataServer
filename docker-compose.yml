@@ -3,7 +3,6 @@ services:
   openldap:
     container_name: ldap-server
     image: osixia/openldap:latest
-    hostname: ${RMI_HOSTNAME} #TODO change name of env-variable
     restart: unless-stopped
     ports:
       - '10389:10389'
