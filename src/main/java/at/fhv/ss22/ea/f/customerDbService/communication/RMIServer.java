@@ -1,6 +1,6 @@
 package at.fhv.ss22.ea.f.customerDbService.communication;
 
-import at.fhv.ss22.ea.f.communication.api.CustomerService;
+import at.fhv.ss22.ea.f.communication.internal.CustomerInternalService;
 import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 
 import java.rmi.RemoteException;
@@ -36,9 +36,9 @@ public class RMIServer {
             }
         }
 
-        CustomerService service = InstanceProvider.getCustomerService();;
+        CustomerInternalService service = InstanceProvider.getCustomerService();;
         try {
-            registry.rebind("CustomerService", service);
+            registry.rebind("CustomerInternalService", service);
             System.out.println("CustomerService bound in registry on port " + PORT);
         } catch (RemoteException e) {
             e.printStackTrace();

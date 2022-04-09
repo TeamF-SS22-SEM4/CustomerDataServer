@@ -1,6 +1,6 @@
 package at.fhv.ss22.ea.f.customerDbService;
 
-import at.fhv.ss22.ea.f.communication.api.CustomerService;
+import at.fhv.ss22.ea.f.communication.internal.CustomerInternalService;
 import at.fhv.ss22.ea.f.customerDbService.application.CustomerApplicationService;
 import at.fhv.ss22.ea.f.customerDbService.application.CustomerApplicationServiceImpl;
 import at.fhv.ss22.ea.f.customerDbService.communication.CustomerServiceImpl;
@@ -22,7 +22,7 @@ public class InstanceProvider {
     private static CustomerApplicationService mockedCustomerApplicationService;
     private static CustomerRepository mockedCustomerRepository;
 
-    public static CustomerService getCustomerService() {
+    public static CustomerInternalService getCustomerService() {
         try {
             return new CustomerServiceImpl(getCustomerApplicationService());
         } catch (RemoteException e) {

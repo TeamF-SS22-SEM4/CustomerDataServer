@@ -1,7 +1,7 @@
 package at.fhv.ss22.ea.f.customerDbService.communication;
 
-import at.fhv.ss22.ea.f.communication.api.CustomerService;
 import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
+import at.fhv.ss22.ea.f.communication.internal.CustomerInternalService;
 import at.fhv.ss22.ea.f.customerDbService.application.CustomerApplicationService;
 
 import java.rmi.RemoteException;
@@ -9,7 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.UUID;
 
-public class CustomerServiceImpl extends UnicastRemoteObject implements CustomerService {
+public class CustomerServiceImpl extends UnicastRemoteObject implements CustomerInternalService {
 
     private CustomerApplicationService customerApplicationService;
 
@@ -20,13 +20,7 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
 
     @Override
     public CustomerDTO customerById(UUID uuid) {
-        CustomerDTO customerDTO =customerApplicationService.customerById(uuid).orElse(null);
-        try {
-            System.out.println(getClientHost());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return customerDTO;
+        return customerApplicationService.customerById(uuid).orElse(null);
     }
 
     @Override
