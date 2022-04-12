@@ -3,7 +3,6 @@ package at.fhv.ss22.ea.f;
 import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
 import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.Optional;

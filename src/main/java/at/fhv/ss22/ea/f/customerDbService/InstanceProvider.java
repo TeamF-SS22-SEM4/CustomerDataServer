@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import static org.mockito.Mockito.mock;
 
 public class InstanceProvider {
+    private InstanceProvider(){}
 
     private static CustomerApplicationService customerApplicationService;
     private static CustomerRepository customerRepository;
