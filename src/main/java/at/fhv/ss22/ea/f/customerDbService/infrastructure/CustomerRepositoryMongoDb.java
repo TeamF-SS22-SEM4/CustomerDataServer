@@ -25,13 +25,12 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
                 System.getenv("MONGO_INITDB_DATABASE"),
                 System.getenv("MONGO_PASSWORD").toCharArray());
         MongoDatabase db;
-        try (MongoClient mongoClient = MongoClients.create(
+        MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
                         .credential(credential)
                         .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_HOSTNAME + ":" + DATABASE_PORT))
-                        .build())) {
-            db = mongoClient.getDatabase(MONGODB_DATABASE);
-        }
+                        .build());
+        db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
     }
 
