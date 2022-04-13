@@ -1,12 +1,10 @@
 package at.fhv.ss22.ea.f;
 
-import at.fhv.ss22.ea.f.customerDbService.CustomerDTO;
+import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
+import at.fhv.ss22.ea.f.customerDbService.InstanceProvider;
 import at.fhv.ss22.ea.f.customerDbService.infrastructure.CustomerRepository;
-import at.fhv.ss22.ea.f.customerDbService.application.CustomerService;
-import at.fhv.ss22.ea.f.customerDbService.application.CustomerServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import at.fhv.ss22.ea.f.customerDbService.application.CustomerApplicationService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,21 +12,14 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerServiceTests {
 
-    private CustomerService customerService;
+    private CustomerApplicationService customerApplicationService = InstanceProvider.getTestingCustomerApplicationService();
 
-    private CustomerRepository customerRepository;
-
-    @BeforeAll
-    void setup() {
-        this.customerRepository = mock(CustomerRepository.class);
-        this.customerService = CustomerServiceImpl.newTestInstance(this.customerRepository);
-    }
+    private CustomerRepository customerRepository = InstanceProvider.getMockedCustomerRepository();
 
     private CustomerDTO newTestCustomer() {
         return CustomerDTO.builder().id(UUID.randomUUID()).givenName("max").familyName("mustermann").build();
@@ -41,7 +32,7 @@ class CustomerServiceTests {
         when(customerRepository.customerById(customer.getCustomerId())).thenReturn(java.util.Optional.of(customer));
 
         //when
-        CustomerDTO customerActual = customerService.customerById(customer.getCustomerId()).orElseThrow();
+        CustomerDTO customerActual = customerApplicationService.customerById(customer.getCustomerId()).orElseThrow();
 
         //then
         assertEquals(customerActual.getCustomerId(), customer.getCustomerId());
@@ -55,7 +46,7 @@ class CustomerServiceTests {
         when(customerRepository.customerById(any())).thenReturn(Optional.empty());
 
         //when
-        Optional<CustomerDTO> customerOpt = customerService.customerById(UUID.randomUUID());
+        Optional<CustomerDTO> customerOpt = customerApplicationService.customerById(UUID.randomUUID());
 
         //then
         assertTrue(customerOpt.isEmpty());
@@ -74,7 +65,7 @@ class CustomerServiceTests {
         when(customerRepository.customerById(invalidCustomer.getCustomerId())).thenReturn(Optional.empty());
 
         //when
-        List<CustomerDTO> listActual = customerService.customerListByIds(List.of(customer1.getCustomerId(), customer2.getCustomerId(), customer3.getCustomerId(), invalidCustomer.getCustomerId()));
+        List<CustomerDTO> listActual = customerApplicationService.customerListByIds(List.of(customer1.getCustomerId(), customer2.getCustomerId(), customer3.getCustomerId(), invalidCustomer.getCustomerId()));
 
         //then
         assertTrue(listActual.contains(customer1));

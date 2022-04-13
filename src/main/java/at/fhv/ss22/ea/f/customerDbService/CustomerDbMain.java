@@ -1,14 +1,11 @@
 package at.fhv.ss22.ea.f.customerDbService;
 
-import at.fhv.ss22.ea.f.customerDbService.application.CustomerService;
-import at.fhv.ss22.ea.f.customerDbService.application.CustomerServiceImpl;
+import at.fhv.ss22.ea.f.customerDbService.communication.RMIServer;
 
 public class CustomerDbMain {
 
     public static void main(String[] args) {
-        CustomerService customerService = new CustomerServiceImpl();
-
-        // TODO stuff related to rmi
+        RMIServer server = new RMIServer();
+        server.start();
     }
-
 }

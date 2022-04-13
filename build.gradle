@@ -8,13 +8,17 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io'}
 }
 
 dependencies {
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
     implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    implementation 'com.github.TeamF-SS22-SEM4:RMI-Shared-Lib:v31'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation "org.mockito:mockito-core:3.+"
+    implementation 'org.mockito:mockito-core:4.4.0'
 }
 
 jacocoTestReport {
@@ -29,4 +33,14 @@ jacoco {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+}
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'at.fhv.ss22.ea.f.customerDbService.CustomerDbMain'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
