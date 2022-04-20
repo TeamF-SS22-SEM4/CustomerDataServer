@@ -14,6 +14,24 @@ sn: Birbamer
 ou: dbi6423
 userPassword:: cGFzc3dvcmQ=
 
+dn: ou=employee,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Basic Employee
+sn: Employee
+ou: employee
+userPassword:: cGFzc3dvcmQ=
+
+dn: ou=operator,ou=employees,dc=ad,dc=teamF,dc=net
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Basic Operator
+sn: Operator
+ou: operator
+userPassword:: cGFzc3dvcmQ=
+
 dn: ou=dku7033,ou=employees,dc=ad,dc=teamF,dc=net
 objectClass: organizationalPerson
 objectClass: person
