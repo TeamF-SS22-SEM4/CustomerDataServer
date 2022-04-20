@@ -1,4 +1,4 @@
-sudo docker-compose down
+docker-compose down
 ./gradlew build
-sudo docker-compose build
-sudo docker-compose up -d
+docker-compose build
+docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
