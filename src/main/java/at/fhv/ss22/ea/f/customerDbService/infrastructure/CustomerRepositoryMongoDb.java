@@ -20,7 +20,7 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
     private MongoCollection<Document> customerCollection;
 
     public CustomerRepositoryMongoDb() {
-        MongoCredential credential = MongoCredential.createScramSha256Credential(
+        MongoCredential credential = MongoCredential.createCredential(
                 System.getenv("MONGO_USERNAME"),
                 System.getenv("MONGO_INITDB_DATABASE"),
                 System.getenv("MONGO_PASSWORD").toCharArray());
