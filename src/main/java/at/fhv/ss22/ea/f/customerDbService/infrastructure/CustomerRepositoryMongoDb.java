@@ -20,14 +20,14 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
     private MongoCollection<Document> customerCollection;
 
     public CustomerRepositoryMongoDb() {
-//        MongoCredential credential = MongoCredential.createScramSha256Credential(
-//                System.getenv("MONGO_USERNAME"),
-//                System.getenv("MONGO_INITDB_DATABASE"),
-//                System.getenv("MONGO_PASSWORD").toCharArray());
+        MongoCredential credential = MongoCredential.createScramSha256Credential(
+                System.getenv("MONGO_USERNAME"),
+                System.getenv("MONGO_INITDB_DATABASE"),
+                System.getenv("MONGO_PASSWORD").toCharArray());
         MongoDatabase db;
         MongoClient mongoClient = MongoClients.create(
                 MongoClientSettings.builder()
-//                        .credential(credential)
+                        .credential(credential)
                         .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_HOSTNAME + ":" + DATABASE_PORT))
                         .build());
         db = mongoClient.getDatabase(MONGODB_DATABASE);
