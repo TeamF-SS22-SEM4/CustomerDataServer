@@ -3,11 +3,11 @@ const {MongoClient} = require('mongodb');
 const ADMIN_USERNAME = encodeURIComponent(process.env.MONGO_INITDB_ROOT_USERNAME);
 const ADMIN_PASSWORD = encodeURIComponent(process.env.MONGO_INITDB_ROOT_PASSWORD);
 const DATABASE = process.env.MONGO_INITDB_DATABASE;
-const USERNAME = encodeURIComponent(process.env.MONGO_USERNAME);
-const PASSWORD = encodeURIComponent(process.env.MONGO_PASSWORD);
-//
-const uri = `mongodb://${ADMIN_USERNAME}:${ADMIN_PASSWORD}@local_mongo`;
+const USERNAME = process.env.MONGO_USERNAME;
+const PASSWORD = process.env.MONGO_PASSWORD;
+console.log(ADMIN_USERNAME, ADMIN_PASSWORD, USERNAME, PASSWORD, DATABASE);
 
+const uri = `mongodb://${ADMIN_USERNAME}:${ADMIN_PASSWORD}@local_mongo`;
 
 const client = new MongoClient(uri);
 
@@ -16,7 +16,7 @@ async function populate_db() {
         await client.connect();
         const db = client.db(DATABASE);
         const admindb = db.admin()
-        admindb.addUser(USERNAME, PASSWORD, {roles: [{role: 'readWrite', db: DATABASE}]})
+        admindb.addUser("mustermannUser", "verySecurePassword", {roles: [{role: 'readWrite', db: DATABASE}]})
 
         const customerCollection = db.collection("customers");
 
@@ -9657,13 +9657,15 @@ async function populate_db() {
         ];
         await customerCollection.insertMany(customers);
 
-        console.log("Successfully initialised MongoDB")
+        console.log("Successfully initialised MongoDB");
     } catch (e) {
-        console.log(e)
-        console.log("Failed to initialise MongoDB")
+        console.log(e);
+        console.log("Failed to initialise MongoDB");
+        process.exit(1)
+
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
     }
 }
-populate_db().catch()
+populate_db()

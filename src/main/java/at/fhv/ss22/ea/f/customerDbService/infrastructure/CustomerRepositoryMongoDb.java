@@ -2,10 +2,7 @@ package at.fhv.ss22.ea.f.customerDbService.infrastructure;
 
 import at.fhv.ss22.ea.f.communication.dto.CustomerDTO;
 import com.mongodb.BasicDBObject;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.*;
-import com.mongodb.MongoCredential;
 import org.bson.Document;
 
 import java.util.*;
@@ -20,17 +17,10 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
     private MongoCollection<Document> customerCollection;
 
     public CustomerRepositoryMongoDb() {
-        MongoCredential credential = MongoCredential.createCredential(
-                System.getenv("MONGO_USERNAME"),
-                System.getenv("MONGO_INITDB_DATABASE"),
-                System.getenv("MONGO_PASSWORD").toCharArray());
-        MongoDatabase db;
-        MongoClient mongoClient = MongoClients.create(
-                MongoClientSettings.builder()
-                        .credential(credential)
-                        .applyConnectionString(new ConnectionString("mongodb://" + DATABASE_HOSTNAME + ":" + DATABASE_PORT))
-                        .build());
-        db = mongoClient.getDatabase(MONGODB_DATABASE);
+        MongoClient mongoClient = MongoClients.create("mongodb://" +
+                System.getenv("MONGO_USERNAME") + ":" +
+                System.getenv("MONGO_PASSWORD") + "@local_mongo");
+        MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
     }
 
