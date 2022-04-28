@@ -28,8 +28,6 @@ services:
       - "27017:27017"
     networks:
       - customer_backend
-#    volumes:
-#      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
   mongo-data-provider:
     container_name: mongo-data-provider
     build: ./mongo-data-provider.
@@ -37,6 +35,8 @@ services:
       - .env
     depends_on:
       - mongo
+    networks:
+      - customer_backend
     links:
       - mongo:local_mongo
   customer-db-service:
