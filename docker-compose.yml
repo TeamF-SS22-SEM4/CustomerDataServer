@@ -29,7 +29,7 @@ services:
     networks:
       - customer_backend
     volumes:
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
   customer-db-service:
     container_name: customer-db-service
     build: .
