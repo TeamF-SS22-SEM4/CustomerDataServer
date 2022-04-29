@@ -5,7 +5,6 @@ const ADMIN_PASSWORD = encodeURIComponent(process.env.MONGO_INITDB_ROOT_PASSWORD
 const DATABASE = process.env.MONGO_INITDB_DATABASE;
 const USERNAME = process.env.MONGO_USERNAME;
 const PASSWORD = process.env.MONGO_PASSWORD;
-console.log(ADMIN_USERNAME, ADMIN_PASSWORD, USERNAME, PASSWORD, DATABASE);
 
 const uri = `mongodb://${ADMIN_USERNAME}:${ADMIN_PASSWORD}@local_mongo`;
 
@@ -16,7 +15,7 @@ async function populate_db() {
         await client.connect();
         const db = client.db(DATABASE);
         const admindb = db.admin()
-        admindb.addUser("mustermannUser", "verySecurePassword", {roles: [{role: 'readWrite', db: DATABASE}]})
+        admindb.addUser(USERNAME, PASSWORD, {roles: [{role: 'readWrite', db: DATABASE}]})
 
         const customerCollection = db.collection("customers");
 

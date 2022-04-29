@@ -30,7 +30,7 @@ services:
       - customer_backend
   mongo-data-provider:
     container_name: mongo-data-provider
-    build: ./mongo-data-provider.
+    build: ./mongo-data-provider
     env_file:
       - .env
     depends_on:
