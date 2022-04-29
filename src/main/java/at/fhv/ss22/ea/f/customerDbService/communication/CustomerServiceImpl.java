@@ -54,13 +54,6 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
         } catch (ServerNotActiveException e) {}
         logger.info("search called from {}", host);
 
-        List<CustomerDTO> result = new LinkedList<>();
-        try {
-            result = customerApplicationService.search(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-
+        return customerApplicationService.search(query);
     }
 }
