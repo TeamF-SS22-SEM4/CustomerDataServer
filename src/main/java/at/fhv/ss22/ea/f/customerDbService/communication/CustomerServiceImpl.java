@@ -9,11 +9,13 @@ import org.apache.logging.log4j.Logger;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class CustomerServiceImpl extends UnicastRemoteObject implements CustomerInternalService {
     private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
+    public static final String HOST_UNKNOWN = "HOST_UNKNOWN";
 
     private CustomerApplicationService customerApplicationService;
 
@@ -24,7 +26,7 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
 
     @Override
     public CustomerDTO customerById(UUID uuid) {
-        String host = "HOST_UNKNOWN";
+        String host = HOST_UNKNOWN;
         try {
             host = getClientHost();
         } catch (ServerNotActiveException e) {}
@@ -35,7 +37,7 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
 
     @Override
     public List<CustomerDTO> customerListByIds(List<UUID> uuidList) {
-        String host = "HOST_UNKNOWN";
+        String host = HOST_UNKNOWN;
         try {
             host = getClientHost();
         } catch (ServerNotActiveException e) {}
@@ -46,7 +48,7 @@ public class CustomerServiceImpl extends UnicastRemoteObject implements Customer
 
     @Override
     public List<CustomerDTO> search(String query) {
-        String host = "HOST_UNKNOWN";
+        String host = HOST_UNKNOWN;
         try {
             host = getClientHost();
         } catch (ServerNotActiveException e) {}
