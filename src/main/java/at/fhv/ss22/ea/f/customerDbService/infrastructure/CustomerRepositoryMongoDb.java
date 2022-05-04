@@ -57,6 +57,7 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
         if (doc==null) { return Optional.empty(); }
 
         Document address = doc.get("address", Document.class);
+        Document creditCard = doc.get("creditCard", Document.class);
         return Optional.of(CustomerDTO.builder()
                 .id(UUID.fromString(doc.get("customerId").toString()))
                 .givenName(doc.getString("givenName"))
@@ -69,6 +70,9 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
                 .country(address.getString("addressCountry"))
                 .phoneNumber(doc.getString("phoneNo"))
                 .mobileNumber(doc.getString("mobileNo"))
+                .creditCardType(creditCard.getString("type"))
+                .creditCardNumber(creditCard.getString("number"))
+                .cvc(creditCard.getString("cvc"))
                 .build());
     }
 }
