@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-data-provider
+spec:
+  selector:
+    matchLabels:
+      app: mongo-data-provider
+  template:
+    metadata:
+      name: mongo-data-provider
+      labels:
+        app: mongo-data-provider
+    spec:
+      containers:
+        - name: mongo-data-provider
+          image: team-f-mongo-data-provider
+          imagePullPolicy: Never

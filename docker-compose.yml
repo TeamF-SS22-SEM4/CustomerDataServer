@@ -12,7 +12,7 @@ services:
       LDAP_ADMIN_PASSWORD: "admin"
       LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
       LDAP_BASE_DN: "dc=ad,dc=teamF,dc=net"
-      LDAP_ORGANISATION: "Musichop F"
+      LDAP_ORGANISATION: "Musicshop F"
       LDAP_DOMAIN: "ad.teamF.net"
       LDAP_TLS: "false"
       LDAP_PORT: "10389"
