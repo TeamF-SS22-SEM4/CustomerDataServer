@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-db-service
+  labels:
+    app: customer-db-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-db-service
+  template:
+    metadata:
+      name: customer-db-service-pod
+      labels:
+        app: customer-db-service
+    spec:
+      containers:
+        - name: customer-db-service
+          image: team-f-customer-data-server
+          env:
+            - name: RMI_PORT
+              value: "1098"
+            - name: RMI_HOSTNAME
+              value: customer-db-service
+            - name: MONGO_INITDB_DATABASE
+              value: customerDb
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: admin
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: admin
+            - name: MONGO_USERNAME
+              value: mongo
+            - name: MONGO_PASSWORD
+              value: mongo
+            - name: CREATE_RMI_REGISTRY
+              value: "true"
+            - name: RMI_REGISTRY_HOSTNAME
+              value: localhost
+            - name: RMI_REGISTRY_PORT
+              value: "1098"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 1098
+              name: customer-rmi
