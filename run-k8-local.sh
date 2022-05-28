@@ -7,7 +7,9 @@ kubectl delete -f ./kubernetes/mongo-data-provider.yml
 
 ./gradlew build
 docker build -f Dockerfile -t team-f-customer-data-server .
-docker build -f ./mongo-data-provider/Dockerfile -t team-f-mongo-data-provider .
+cd mongo-data-provider || exit
+docker build -f Dockerfile -t team-f-mongo-data-provider .
+cd ..
 
 kubectl apply -f ./kubernetes/customer-db-service-deployment.yml
 kubectl apply -f ./kubernetes/mongo-db-deployment.yml
