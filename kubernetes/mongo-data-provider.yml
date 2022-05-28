@@ -1,11 +1,8 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: mongo-data-provider
 spec:
-  selector:
-    matchLabels:
-      app: mongo-data-provider
   template:
     metadata:
       name: mongo-data-provider
@@ -16,3 +13,16 @@ spec:
         - name: mongo-data-provider
           image: team-f-mongo-data-provider
           imagePullPolicy: Never
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: admin
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: admin
+            - name: MONGO_INITDB_DATABASE
+              value: customerDb
+            - name: MONGO_USERNAME
+              value: mongo
+            - name: MONGO_PASSWORD
+              value: mongo
+      restartPolicy: Never
+  backoffLimit: 1
