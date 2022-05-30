@@ -17,26 +17,60 @@ spec:
         - name: customer-db-service
           image: team-f-customer-data-server
           env:
-            - name: RMI_PORT
-              value: "1099"
-            - name: RMI_HOSTNAME
-              value: customer-db-service
-            - name: MONGO_INITDB_DATABASE
-              value: customerDb
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: admin
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: admin
-            - name: MONGO_USERNAME
-              value: mongo
-            - name: MONGO_PASSWORD
-              value: mongo
-            - name: CREATE_RMI_REGISTRY
-              value: "true"
-            - name: RMI_REGISTRY_HOSTNAME
-              value: localhost
-            - name: RMI_REGISTRY_PORT
-              value: "1099"
+            - name: RMI_PORT # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_port
+                  name: customer-db-configmap
+            - name: RMI_HOSTNAME # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_hostname
+                  name: customer-db-configmap
+            - name: MONGO_INITDB_DATABASE # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: mongo_initdb_database
+                  name: customer-db-configmap
+            - name: MONGO_INITDB_ROOT_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_username
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_password
+                  optional: false
+            - name: MONGO_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_username
+                  optional: false
+            - name: MONGO_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_password
+                  optional: false
+            - name: CREATE_RMI_REGISTRY # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: create_rmi_registry
+                  name: customer-db-configmap
+            - name: RMI_REGISTRY_HOSTNAME # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_registry_hostname
+                  name: customer-db-configmap
+            - name: RMI_REGISTRY_PORT # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_registry_port
+                  name: customer-db-configmap
           imagePullPolicy: Never
           ports:
             - name: rmi

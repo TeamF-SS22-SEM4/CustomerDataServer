@@ -14,17 +14,39 @@ spec:
           image: team-f-mongo-data-provider
           imagePullPolicy: Never
           env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: admin
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: admin
-            - name: MONGO_INITDB_DATABASE
-              value: customerDb
-            - name: MONGO_USERNAME
-              value: mongo
-            - name: MONGO_PASSWORD
-              value: mongo
-            - name: DB_URL
-              value: mongodb
+            - name: MONGO_INITDB_ROOT_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_username
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_password
+                  optional: false
+            - name: MONGO_INITDB_DATABASE # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: mongo_initdb_database
+                  name: customer-db-configmap
+            - name: MONGO_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_username
+                  optional: false
+            - name: MONGO_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_password
+                  optional: false
+            - name: DB_URL # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: db_url
+                  name: customer-db-configmap
       restartPolicy: Never
   backoffLimit: 1

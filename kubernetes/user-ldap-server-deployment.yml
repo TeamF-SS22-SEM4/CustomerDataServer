@@ -15,26 +15,55 @@ spec:
       containers:
         - name: user-ldap-server
           image: osixia/openldap:latest
+#          volumeMounts:
+#            - mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom/bootstrap-data.ldif
+#              name: customer-data
           env:
-            - name: LDAP_ADMIN_PASSWORD
-              value: admin
-            - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
-              value: "true"
-            - name: LDAP_BASE_DN
-              value: "dc=ad,dc=teamF,dc=net"
-            - name: LDAP_ORGANISATION
-              value: "Musicshop F"
-            - name: LDAP_DOMAIN
-              value: "ad.teamF.net"
-            - name: LDAP_TLS
-              value: "false"
-            - name: LDAP_PORT
-              value: "10389"
+            - name: LDAP_ADMIN_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: ldap_admin_password
+                  optional: false
+            - name: LDAP_REMOVE_CONFIG_AFTER_SETUP # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_remove_config_after_setup
+                  name: customer-db-configmap
+            - name: LDAP_BASE_DN # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_base_dn
+                  name: customer-db-configmap
+            - name: LDAP_ORGANISATION # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_organisation
+                  name: customer-db-configmap
+            - name: LDAP_DOMAIN # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_domain
+                  name: customer-db-configmap
+            - name: LDAP_TLS # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_tls
+                  name: customer-db-configmap
+            - name: LDAP_PORT # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: ldap_port
+                  name: customer-db-configmap
           ports:
             - name: ldap1
               containerPort: 10389
             - name: ldap2
               containerPort: 10636
+#      volumes:
+#        - name: customer-data
+#          hostPath:
+#            path: ../employee-data.ldif # Can not be mounted as relative path --> path must not contain ..
 ---
 apiVersion: v1
 kind: Service
