@@ -31,6 +31,8 @@ services:
   mongo-data-provider:
     container_name: mongo-data-provider
     build: ./mongo-data-provider
+    environment:
+      DB_URL: "local_mongo"
     env_file:
       - .env
     depends_on:

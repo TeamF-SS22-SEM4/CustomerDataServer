@@ -24,5 +24,7 @@ spec:
               value: mongo
             - name: MONGO_PASSWORD
               value: mongo
+            - name: DB_URL
+              value: mongodb
       restartPolicy: Never
   backoffLimit: 1
