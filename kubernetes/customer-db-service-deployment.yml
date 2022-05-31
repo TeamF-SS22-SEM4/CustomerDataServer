@@ -71,7 +71,7 @@ spec:
                 configMapKeyRef:
                   key: rmi_registry_port
                   name: customer-db-configmap
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - name: rmi
               containerPort: 1099
