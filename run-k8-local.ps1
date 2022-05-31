@@ -1,3 +1,5 @@
+kubectl delete -f ./kubernetes/secret.yml
+kubectl delete -f ./kubernetes/configmap.yml
 kubectl delete -f ./kubernetes/customer-db-service-deployment.yml
 kubectl delete -f ./kubernetes/mongo-db-deployment.yml
 kubectl delete -f ./kubernetes/user-ldap-server-deployment.yml
@@ -9,6 +11,8 @@ cd mongo-data-provider
 docker build -f Dockerfile -t team-f-mongo-data-provider .
 cd ..
 
+kubectl apply -f ./kubernetes/secret.yml
+kubectl apply -f ./kubernetes/configmap.yml
 kubectl apply -f ./kubernetes/customer-db-service-deployment.yml
 kubectl apply -f ./kubernetes/mongo-db-deployment.yml
 kubectl apply -f ./kubernetes/user-ldap-server-deployment.yml
