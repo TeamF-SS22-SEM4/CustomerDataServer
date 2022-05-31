@@ -7,6 +7,8 @@ kubectl delete -f ./kubernetes/mongo-db-deployment.yml
 kubectl delete -f ./kubernetes/user-ldap-server-deployment.yml
 kubectl delete -f ./kubernetes/mongo-data-provider.yml
 
+docker build -f Dockerfile-ldap -t ldap-with-data .
+
 ./gradlew build
 docker build -f Dockerfile -t team-f-customer-data-server .
 cd mongo-data-provider || exit
