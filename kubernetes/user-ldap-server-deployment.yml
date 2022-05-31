@@ -14,10 +14,7 @@ spec:
     spec:
       containers:
         - name: user-ldap-server
-          image: osixia/openldap:latest
-#          volumeMounts:
-#            - mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom/bootstrap-data.ldif
-#              name: customer-data
+          image: ldap-with-data
           env:
             - name: LDAP_ADMIN_PASSWORD # Secret
               valueFrom:
@@ -55,15 +52,12 @@ spec:
                 configMapKeyRef:
                   key: ldap_port
                   name: customer-db-configmap
+          imagePullPolicy: IfNotPresent
           ports:
             - name: ldap1
               containerPort: 10389
             - name: ldap2
               containerPort: 10636
-#      volumes:
-#        - name: customer-data
-#          hostPath:
-#            path: ../employee-data.ldif # Can not be mounted as relative path --> path must not contain ..
 ---
 apiVersion: v1
 kind: Service
