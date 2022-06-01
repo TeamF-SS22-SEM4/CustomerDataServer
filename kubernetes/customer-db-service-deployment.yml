@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-db-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-db-service
+  template:
+    metadata:
+      name: customer-db-service
+      labels:
+        app: customer-db-service
+    spec:
+      containers:
+        - name: customer-db-service
+          image: team-f-customer-data-server
+          env:
+            - name: RMI_PORT # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_port
+                  name: customer-db-configmap
+            - name: RMI_HOSTNAME # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_hostname
+                  name: customer-db-configmap
+            - name: MONGO_INITDB_DATABASE # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: mongo_initdb_database
+                  name: customer-db-configmap
+            - name: MONGO_INITDB_ROOT_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_username
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_password
+                  optional: false
+            - name: MONGO_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_username
+                  optional: false
+            - name: MONGO_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_password
+                  optional: false
+            - name: CREATE_RMI_REGISTRY # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: create_rmi_registry
+                  name: customer-db-configmap
+            - name: RMI_REGISTRY_HOSTNAME # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_registry_hostname
+                  name: customer-db-configmap
+            - name: RMI_REGISTRY_PORT # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: rmi_registry_port
+                  name: customer-db-configmap
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: rmi
+              containerPort: 1099
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-db-service
+spec:
+  selector:
+    app: customer-db-service
+  ports:
+    - name: rmi
+      port: 1099
+      targetPort: rmi
+

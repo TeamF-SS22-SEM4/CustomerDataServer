@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:5.0
+          ports:
+            - name: mongoport
+              containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_username
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_password
+                  optional: false
+            - name: MONGO_INITDB_DATABASE # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: mongo_initdb_database
+                  name: customer-db-configmap
+            - name: MONGO_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_username
+                  optional: false
+            - name: MONGO_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_password
+                  optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - name: mongoport
+      port: 27017
+      targetPort: mongoport

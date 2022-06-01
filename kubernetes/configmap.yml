@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-db-configmap
+data:
+  rmi_port: "1099"
+  rmi_hostname: "customer-db-service"
+  mongo_initdb_database: "customerDb"
+  create_rmi_registry: "true"
+  rmi_registry_hostname: "localhost"
+  rmi_registry_port: "1099"
+  ldap_remove_config_after_setup: "true"
+  ldap_base_dn: "dc=ad,dc=teamF,dc=net"
+  ldap_organisation: "Musicshop F"
+  ldap_domain: "ad.teamF.net"
+  ldap_tls: "false"
+  ldap_port: "10389"
+  db_url: "mongodb"
+

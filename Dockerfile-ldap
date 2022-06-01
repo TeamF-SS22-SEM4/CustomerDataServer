@@ -1,0 +1,2 @@
+FROM osixia/openldap:latest
+COPY employee-data.ldif /container/service/slapd/assets/config/bootstrap/ldif/custom/bootstrap-data.ldif
