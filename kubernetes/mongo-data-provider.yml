@@ -11,8 +11,7 @@ spec:
     spec:
       containers:
         - name: mongo-data-provider
-          image: team-f-mongo-data-provider
-          imagePullPolicy: Never
+          image: smighty/mongo-data-provider:latest
           env:
             - name: MONGO_INITDB_ROOT_USERNAME # Secret
               valueFrom:
