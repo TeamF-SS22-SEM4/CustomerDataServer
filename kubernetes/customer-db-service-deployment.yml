@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: customer-db-service
-          image: team-f-customer-data-server
+          image: smighty/customerserver:latest
           env:
             - name: RMI_PORT # ConfigMap
               valueFrom:
@@ -71,7 +71,6 @@ spec:
                 configMapKeyRef:
                   key: rmi_registry_port
                   name: customer-db-configmap
-          imagePullPolicy: IfNotPresent
           ports:
             - name: rmi
               containerPort: 1099

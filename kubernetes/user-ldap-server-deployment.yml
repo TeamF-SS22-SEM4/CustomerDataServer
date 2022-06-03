@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-ldap-server
-          image: ldap-with-data
+          image: smighty/user-ldap:latest
           env:
             - name: LDAP_ADMIN_PASSWORD # Secret
               valueFrom:
@@ -52,7 +52,6 @@ spec:
                 configMapKeyRef:
                   key: ldap_port
                   name: customer-db-configmap
-          imagePullPolicy: IfNotPresent
           ports:
             - name: ldap1
               containerPort: 10389
