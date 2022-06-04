@@ -2,10 +2,10 @@ eval $(minikube docker-env)
 
 kubectl delete -f ./kubernetes/secret.yml
 kubectl delete -f ./kubernetes/configmap.yml
-kubectl delete -f ./kubernetes/customer-db-service-deployment.yml
+kubectl delete -f ./kubernetes/local/customer-db-service-deployment.yml
 kubectl delete -f ./kubernetes/mongo-db-deployment.yml
-kubectl delete -f ./kubernetes/user-ldap-server-deployment.yml
-kubectl delete -f ./kubernetes/mongo-data-provider.yml
+kubectl delete -f ./kubernetes/local/user-ldap-server-deployment.yml
+kubectl delete -f ./kubernetes/local/mongo-data-provider.yml
 
 docker build -f Dockerfile-ldap -t ldap-with-data .
 
@@ -17,7 +17,7 @@ cd ..
 
 kubectl apply -f ./kubernetes/secret.yml
 kubectl apply -f ./kubernetes/configmap.yml
-kubectl apply -f ./kubernetes/customer-db-service-deployment.yml
+kubectl apply -f ./kubernetes/local/customer-db-service-deployment.yml
 kubectl apply -f ./kubernetes/mongo-db-deployment.yml
-kubectl apply -f ./kubernetes/user-ldap-server-deployment.yml
-kubectl apply -f ./kubernetes/mongo-data-provider.yml
+kubectl apply -f ./kubernetes/local/user-ldap-server-deployment.yml
+kubectl apply -f ./kubernetes/local/mongo-data-provider.yml

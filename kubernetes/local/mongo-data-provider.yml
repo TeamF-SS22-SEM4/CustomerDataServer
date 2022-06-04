@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-data-provider
+spec:
+  template:
+    metadata:
+      name: mongo-data-provider
+      labels:
+        app: mongo-data-provider
+    spec:
+      containers:
+        - name: mongo-data-provider
+          image: team-f-mongo-data-provider
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_username
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_initdb_root_password
+                  optional: false
+            - name: MONGO_INITDB_DATABASE # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: mongo_initdb_database
+                  name: customer-db-configmap
+            - name: MONGO_USERNAME # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_username
+                  optional: false
+            - name: MONGO_PASSWORD # Secret
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-service-secret
+                  key: mongo_password
+                  optional: false
+            - name: DB_URL # ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  key: db_url
+                  name: customer-db-configmap
+      restartPolicy: Never
+  backoffLimit: 1
