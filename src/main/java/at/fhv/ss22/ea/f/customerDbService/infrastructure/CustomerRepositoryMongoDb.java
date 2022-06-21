@@ -9,8 +9,7 @@ import java.util.*;
 
 public class CustomerRepositoryMongoDb implements CustomerRepository {
 
-    private static final String DATABASE_HOSTNAME = "local_mongo";
-    private static final String DATABASE_PORT = "27017";
+    private static final String DATABASE_HOSTNAME = Optional.ofNullable(System.getenv("DB_URL")).orElse("local_mongo");
     private static final String MONGODB_DATABASE = System.getenv("MONGO_INITDB_DATABASE");
     private static final String MONGODB_COLLECTION = "customers";
 
@@ -19,7 +18,9 @@ public class CustomerRepositoryMongoDb implements CustomerRepository {
     public CustomerRepositoryMongoDb() {
         MongoClient mongoClient = MongoClients.create("mongodb://" +
                 System.getenv("MONGO_USERNAME") + ":" +
-                System.getenv("MONGO_PASSWORD") + "@local_mongo");
+                System.getenv("MONGO_PASSWORD") + "@" + DATABASE_HOSTNAME + ":27017");
+        System.out.println("DEBUG " + DATABASE_HOSTNAME);
+        System.out.println("DEBUG 2" + System.getenv("DB_URL"));
         MongoDatabase db = mongoClient.getDatabase(MONGODB_DATABASE);
         this.customerCollection = db.getCollection(MONGODB_COLLECTION);
     }

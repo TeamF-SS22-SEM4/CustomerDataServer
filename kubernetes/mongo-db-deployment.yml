@@ -47,6 +47,11 @@ spec:
                   name: mongo-db-service-secret
                   key: mongo_password
                   optional: false
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: db_url
+                  name: customer-db-configmap
 ---
 apiVersion: v1
 kind: Service
@@ -58,4 +63,4 @@ spec:
   ports:
     - name: mongoport
       port: 27017
-      targetPort: mongoport
+      targetPort: 27017
