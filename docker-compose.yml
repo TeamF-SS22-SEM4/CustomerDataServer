@@ -51,7 +51,7 @@ services:
     depends_on:
       - mongo
     links:
-      - mongo:local_mongo
+      - mongo:mongodb
 
 networks:
   customer_backend:

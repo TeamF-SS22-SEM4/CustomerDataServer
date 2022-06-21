@@ -15,5 +15,5 @@ data:
   ldap_domain: "ad.teamF.net"
   ldap_tls: "false"
   ldap_port: "10389"
-  db_url: "mongodb"
+
 
