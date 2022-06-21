@@ -5,9 +5,8 @@ const ADMIN_PASSWORD = encodeURIComponent(process.env.MONGO_INITDB_ROOT_PASSWORD
 const DATABASE = process.env.MONGO_INITDB_DATABASE;
 const USERNAME = process.env.MONGO_USERNAME;
 const PASSWORD = process.env.MONGO_PASSWORD;
-const DB_URL = process.env.DB_URL;
 
-const uri = `mongodb://${ADMIN_USERNAME}:${ADMIN_PASSWORD}@${DB_URL}`;
+const uri = `mongodb://${ADMIN_USERNAME}:${ADMIN_PASSWORD}@local_mongo`;
 
 const client = new MongoClient(uri);
 
