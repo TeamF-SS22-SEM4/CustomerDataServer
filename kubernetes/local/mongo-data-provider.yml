@@ -43,10 +43,5 @@ spec:
                   name: mongo-db-service-secret
                   key: mongo_password
                   optional: false
-            - name: DB_URL # ConfigMap
-              valueFrom:
-                configMapKeyRef:
-                  key: db_url
-                  name: customer-db-configmap
       restartPolicy: Never
   backoffLimit: 1
